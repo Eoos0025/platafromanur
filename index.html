@@ -1,1993 +1,938 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#071E3D">
-  <meta name="description" content="Banco Nur: experiencia demostrativa de apertura de cuentas digitales.">
-  <title>Banco Nur | Tu dinero, tu movimiento</title>
-
-  <style>
-    :root {
-      --navy: #071E3D;
-      --navy-light: #0A2540;
-      --blue: #164F91;
-      --yellow: #FFC72C;
-      --yellow-dark: #E8AB00;
-      --white: #FFFFFF;
-      --bg: #F4F6F8;
-      --muted: #667386;
-      --line: #E2E7ED;
-      --green: #16865B;
-      --radius: 24px;
-      --shadow: 0 20px 60px rgba(7, 30, 61, .10);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--navy);
-      font-family: Inter, "Segoe UI", Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    button, input {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    button:focus-visible,
-    input:focus-visible {
-      outline: 3px solid #4388D3;
-      outline-offset: 3px;
-    }
-
-    .topbar {
-      height: 82px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 6.5%;
-      background: var(--white);
-      border-bottom: 1px solid rgba(7, 30, 61, .06);
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-
-    .brand img {
-      width: 54px;
-      height: 54px;
-      object-fit: contain;
-    }
-
-    .brand-name {
-      font-size: 25px;
-      font-weight: 900;
-      letter-spacing: -1.3px;
-    }
-
-    .brand-name span {
-      color: #C48F00;
-    }
-
-    .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .secure-label {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-
-    .secure-dot {
-      width: 8px;
-      height: 8px;
-      background: #20A56C;
-      border-radius: 50%;
-      box-shadow: 0 0 0 4px #E3F6EC;
-    }
-
-    .hero {
-      position: relative;
-      overflow: hidden;
-      background: var(--navy);
-      color: var(--white);
-      padding: 72px 6.5% 86px;
-    }
-
-    .hero::before,
-    .hero::after {
-      content: "";
-      position: absolute;
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    .hero::before {
-      width: 450px;
-      height: 450px;
-      top: -250px;
-      right: -60px;
-      border: 1px solid rgba(255, 199, 44, .23);
-      box-shadow: 0 0 0 55px rgba(255, 255, 255, .025),
-                  0 0 0 110px rgba(255, 255, 255, .02);
-    }
-
-    .hero::after {
-      width: 250px;
-      height: 250px;
-      bottom: -180px;
-      left: 35%;
-      background: rgba(30, 91, 154, .25);
-      filter: blur(15px);
-    }
-
-    .hero-inner {
-      position: relative;
-      z-index: 1;
-      max-width: 1320px;
-      margin: auto;
-      display: grid;
-      grid-template-columns: minmax(0, 1.25fr) minmax(280px, .75fr);
-      align-items: center;
-      gap: 65px;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 22px;
-      color: var(--yellow);
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: 2.2px;
-      text-transform: uppercase;
-    }
-
-    .eyebrow::before {
-      content: "";
-      width: 26px;
-      height: 3px;
-      background: var(--yellow);
-      border-radius: 5px;
-    }
-
-    h1 {
-      max-width: 760px;
-      margin: 0;
-      font-size: clamp(42px, 5.5vw, 78px);
-      line-height: .99;
-      letter-spacing: -4px;
-      font-weight: 950;
-    }
-
-    h1 .highlight {
-      color: var(--yellow);
-    }
-
-    .hero-copy {
-      max-width: 560px;
-      margin: 24px 0 0;
-      color: #C9D4E3;
-      font-size: 17px;
-      line-height: 1.8;
-    }
-
-    .hero-points {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 17px;
-      margin-top: 29px;
-      color: #E7EDF5;
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .hero-points span {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-
-    .check {
-      color: var(--yellow);
-      font-size: 16px;
-    }
-
-    .hero-art {
-      position: relative;
-      min-width: 0;
-    }
-
-    .banner-card {
-      position: relative;
-      overflow: hidden;
-      padding: 12px;
-      background: rgba(255, 255, 255, .08);
-      border: 1px solid rgba(255, 255, 255, .16);
-      border-radius: 28px;
-      box-shadow: 0 35px 80px rgba(0, 0, 0, .25);
-      transform: rotate(2deg);
-      transition: transform .4s ease;
-    }
-
-    .banner-card:hover {
-      transform: rotate(0deg) translateY(-5px);
-    }
-
-    .banner-card img {
-      display: block;
-      width: 100%;
-      min-height: 210px;
-      max-height: 350px;
-      object-fit: cover;
-      border-radius: 19px;
-    }
-
-    .banner-caption {
-      padding: 18px 13px 12px;
-    }
-
-    .banner-caption strong {
-      display: block;
-      font-size: 19px;
-      letter-spacing: -.5px;
-    }
-
-    .banner-caption p {
-      margin: 7px 0 0;
-      color: #C9D4E3;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .floating-tag {
-      position: absolute;
-      right: -20px;
-      bottom: 70px;
-      padding: 14px 18px;
-      background: var(--yellow);
-      color: var(--navy);
-      border-radius: 15px;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, .2);
-      font-size: 12px;
-      font-weight: 900;
-      transform: rotate(-3deg);
-    }
-
-    .workspace {
-      position: relative;
-      z-index: 2;
-      max-width: 1320px;
-      margin: -37px auto 0;
-      padding: 0 28px 65px;
-    }
-
-    .app-shell {
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: 255px minmax(0, 1fr);
-      min-height: 540px;
-      background: var(--white);
-      border: 1px solid #E7EBF0;
-      border-radius: 30px;
-      box-shadow: var(--shadow);
-    }
-
-    .sidebar {
-      padding: 34px 23px;
-      background: #F9FAFC;
-      border-right: 1px solid var(--line);
-    }
-
-    .sidebar-label {
-      margin: 0 0 26px 8px;
-      color: #8994A4;
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: 1.8px;
-      text-transform: uppercase;
-    }
-
-    .step-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .step-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 13px 11px;
-      border-radius: 14px;
-      color: #8490A0;
-      transition: .25s ease;
-    }
-
-    .step-item.active {
-      background: #FFF5D5;
-      color: var(--navy);
-    }
-
-    .step-item.done {
-      color: var(--green);
-    }
-
-    .step-number {
-      display: grid;
-      place-items: center;
-      flex: 0 0 32px;
-      width: 32px;
-      height: 32px;
-      border: 1px solid #DCE2EA;
-      border-radius: 50%;
-      background: white;
-      font-size: 12px;
-      font-weight: 900;
-    }
-
-    .step-item.active .step-number {
-      background: var(--yellow);
-      border-color: var(--yellow);
-    }
-
-    .step-item.done .step-number {
-      background: #E1F5EA;
-      border-color: #B8E5CC;
-    }
-
-    .step-copy strong {
-      display: block;
-      font-size: 12px;
-      font-weight: 850;
-    }
-
-    .step-copy small {
-      display: block;
-      margin-top: 4px;
-      font-size: 10px;
-      opacity: .75;
-    }
-
-    .sidebar-note {
-      margin-top: 42px;
-      padding: 17px;
-      background: white;
-      border: 1px solid var(--line);
-      border-radius: 17px;
-    }
-
-    .sidebar-note .note-icon {
-      font-size: 22px;
-    }
-
-    .sidebar-note strong {
-      display: block;
-      margin-top: 9px;
-      font-size: 12px;
-    }
-
-    .sidebar-note p {
-      margin: 6px 0 0;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.7;
-    }
-
-    .main-panel {
-      min-width: 0;
-      padding: 42px clamp(22px, 4vw, 60px) 38px;
-    }
-
-    .panel-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 31px;
-    }
-
-    .step-caption {
-      color: #8A95A5;
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-    }
-
-    .progress-track {
-      width: 145px;
-      height: 6px;
-      overflow: hidden;
-      background: #E9EDF2;
-      border-radius: 20px;
-    }
-
-    .progress-fill {
-      width: 20%;
-      height: 100%;
-      background: var(--yellow);
-      border-radius: inherit;
-      transition: width .4s ease;
-    }
-
-    .screen {
-      display: none;
-      animation: screenIn .45s cubic-bezier(.2, .8, .2, 1) both;
-    }
-
-    .screen.active {
-      display: block;
-    }
-
-    @keyframes screenIn {
-      from {
-        opacity: 0;
-        transform: translateY(12px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .screen h2 {
-      margin: 0;
-      font-size: clamp(29px, 3vw, 43px);
-      line-height: 1.1;
-      letter-spacing: -1.8px;
-      font-weight: 950;
-    }
-
-    .screen-intro {
-      max-width: 620px;
-      margin: 13px 0 27px;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.8;
-    }
-
-    .welcome-callout {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: center;
-      gap: 22px;
-      padding: 25px;
-      background: #F5F8FC;
-      border: 1px solid #E8EDF4;
-      border-radius: 22px;
-    }
-
-    .welcome-callout strong {
-      display: block;
-      font-size: 17px;
-    }
-
-    .welcome-callout p {
-      margin: 7px 0 0;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.7;
-    }
-
-    .callout-icon {
-      display: grid;
-      place-items: center;
-      width: 60px;
-      height: 60px;
-      background: var(--yellow);
-      border-radius: 18px;
-      font-size: 26px;
-    }
-
-    .button-row {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 13px;
-      margin-top: 27px;
-    }
-
-    .btn {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      gap: 11px;
-      min-height: 53px;
-      padding: 0 24px;
-      border: 0;
-      border-radius: 13px;
-      font-size: 13px;
-      font-weight: 900;
-      transition: transform .22s ease, box-shadow .22s ease, background .22s ease;
-    }
-
-    .btn-primary {
-      background: var(--yellow);
-      color: var(--navy);
-      box-shadow: 0 8px 0 rgba(191, 139, 0, .12);
-    }
-
-    .btn-primary:hover {
-      background: #FFD34E;
-      box-shadow: 0 9px 28px rgba(255, 199, 44, .28);
-      transform: translateY(-3px);
-    }
-
-    .btn-primary:active {
-      transform: translateY(0) scale(.98);
-    }
-
-    .btn-secondary {
-      background: #F0F3F7;
-      color: var(--navy);
-    }
-
-    .btn-secondary:hover {
-      background: #E5EAF0;
-      transform: translateY(-2px);
-    }
-
-    .btn:disabled {
-      opacity: .45;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-
-    .tiny-note {
-      margin: 18px 0 0;
-      color: #8792A1;
-      font-size: 11px;
-      line-height: 1.7;
-    }
-
-    .account-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .account-option {
-      position: relative;
-      min-width: 0;
-      padding: 22px;
-      text-align: left;
-      color: var(--navy);
-      background: white;
-      border: 2px solid var(--line);
-      border-radius: 22px;
-      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
-    }
-
-    .account-option:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 14px 30px rgba(7, 30, 61, .08);
-    }
-
-    .account-option.selected {
-      background: #FFFCF1;
-      border-color: var(--yellow);
-      box-shadow: 0 0 0 4px rgba(255, 199, 44, .14);
-    }
-
-    .account-option .account-icon {
-      display: grid;
-      place-items: center;
-      width: 49px;
-      height: 49px;
-      margin-bottom: 22px;
-      background: #EEF3F9;
-      border-radius: 15px;
-      font-size: 22px;
-    }
-
-    .account-option.selected .account-icon {
-      background: #FFF0B8;
-    }
-
-    .account-option h3 {
-      margin: 0;
-      font-size: 17px;
-      line-height: 1.4;
-      letter-spacing: -.4px;
-    }
-
-    .account-option p {
-      min-height: 55px;
-      margin: 10px 0 18px;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.7;
-    }
-
-    .account-feature {
-      display: flex;
-      gap: 8px;
-      margin-top: 9px;
-      font-size: 11px;
-      font-weight: 700;
-    }
-
-    .account-feature span {
-      color: #BA8B00;
-    }
-
-    .radio-mark {
-      position: absolute;
-      top: 19px;
-      right: 19px;
-      width: 21px;
-      height: 21px;
-      border: 1.5px solid #CCD5E0;
-      border-radius: 50%;
-    }
-
-    .account-option.selected .radio-mark {
-      border: 6px solid var(--yellow);
-      background: white;
-    }
-
-    .form-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(250px, .87fr);
-      align-items: start;
-      gap: 30px;
-    }
-
-    .form-fields {
-      min-width: 0;
-    }
-
-    .field {
-      margin-bottom: 18px;
-    }
-
-    .field label {
-      display: block;
-      margin-bottom: 9px;
-      font-size: 12px;
-      font-weight: 850;
-    }
-
-    .input-wrap {
-      position: relative;
-    }
-
-    .field input {
-      width: 100%;
-      height: 51px;
-      padding: 0 15px;
-      color: var(--navy);
-      background: #FAFBFD;
-      border: 1.5px solid #DFE5EC;
-      border-radius: 12px;
-      transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
-    }
-
-    .field input::placeholder {
-      color: #A2ACB9;
-    }
-
-    .field input:focus {
-      background: white;
-      border-color: #3E77B8;
-      outline: none;
-      box-shadow: 0 0 0 4px rgba(62, 119, 184, .10);
-    }
-
-    .field input.invalid {
-      border-color: #CF4343;
-      box-shadow: 0 0 0 3px rgba(207, 67, 67, .08);
-    }
-
-    .field-hint {
-      margin: 7px 0 0;
-      color: #8590A0;
-      font-size: 10px;
-      line-height: 1.6;
-    }
-
-    .consent {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      margin: 18px 0 3px;
-      color: #59687B;
-      font-size: 11px;
-      line-height: 1.7;
-    }
-
-    .consent input {
-      width: 17px;
-      height: 17px;
-      flex: 0 0 17px;
-      margin-top: 2px;
-      accent-color: var(--navy);
-    }
-
-    .card-preview-wrap {
-      position: sticky;
-      top: 18px;
-      min-width: 0;
-      padding: 18px;
-      background: #F5F7FA;
-      border: 1px solid #E7ECF2;
-      border-radius: 22px;
-    }
-
-    .preview-label {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 18px;
-      color: #7B8797;
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-    }
-
-    .live-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      color: var(--green);
-      font-size: 9px;
-      letter-spacing: 0;
-    }
-
-    .live-badge::before {
-      content: "";
-      width: 6px;
-      height: 6px;
-      background: #1AA66B;
-      border-radius: 50%;
-    }
-
-    .debit-card {
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      aspect-ratio: 1.59 / 1;
-      min-height: 190px;
-      padding: 21px;
-      color: white;
-      background:
-        radial-gradient(circle at 88% 12%, rgba(255, 199, 44, .26), transparent 28%),
-        linear-gradient(135deg, #123E70 0%, #071E3D 62%, #0C3159 100%);
-      border: 1px solid rgba(255, 255, 255, .18);
-      border-radius: 19px;
-      box-shadow: 0 18px 32px rgba(7, 30, 61, .25);
-      transform: perspective(850px) rotateY(-5deg) rotateX(3deg);
-      transition: transform .35s ease;
-      isolation: isolate;
-    }
-
-    .debit-card::before {
-      content: "";
-      position: absolute;
-      z-index: -1;
-      width: 210px;
-      height: 210px;
-      right: -85px;
-      bottom: -120px;
-      border: 1px solid rgba(255, 199, 44, .6);
-      border-radius: 50%;
-      box-shadow: 0 0 0 22px rgba(255, 199, 44, .05),
-                  0 0 0 45px rgba(255, 199, 44, .04);
-    }
-
-    .debit-card:hover {
-      transform: perspective(850px) rotateY(0) rotateX(0) translateY(-4px);
-    }
-
-    .card-top,
-    .card-bottom {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-    }
-
-    .card-brand {
-      font-size: 18px;
-      font-weight: 950;
-      letter-spacing: -1px;
-    }
-
-    .card-brand span {
-      color: var(--yellow);
-    }
-
-    .card-kind {
-      color: #C6D7EA;
-      font-size: 8px;
-      letter-spacing: 1.5px;
-      font-weight: 800;
-    }
-
-    .chip {
-      position: relative;
-      width: 39px;
-      height: 30px;
-      overflow: hidden;
-      background: linear-gradient(135deg, #FFE69A, #C99A2B 50%, #F9D879);
-      border: 1px solid rgba(117, 80, 4, .5);
-      border-radius: 7px;
-    }
-
-    .chip::before,
-    .chip::after {
-      content: "";
-      position: absolute;
-      background: transparent;
-      border: 1px solid rgba(126, 87, 8, .55);
-    }
-
-    .chip::before {
-      top: 0;
-      bottom: 0;
-      left: 12px;
-      right: 12px;
-    }
-
-    .chip::after {
-      top: 9px;
-      bottom: 9px;
-      left: 0;
-      right: 0;
-    }
-
-    .card-middle {
-      margin-top: 7px;
-    }
-
-    .card-middle small {
-      display: block;
-      margin-bottom: 7px;
-      color: #B8C9DD;
-      font-size: 8px;
-      font-weight: 800;
-      letter-spacing: 1.5px;
-    }
-
-    .cardholder {
-      display: block;
-      overflow: hidden;
-      color: white;
-      font-size: clamp(12px, 1.2vw, 16px);
-      font-weight: 900;
-      text-overflow: ellipsis;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-
-    .card-currency {
-      color: #D6E2EF;
-      font-size: 10px;
-      font-weight: 800;
-    }
-
-    .card-disclaimer {
-      margin: 15px 0 0;
-      color: #8491A2;
-      font-size: 10px;
-      line-height: 1.6;
-    }
-
-    .verification-box {
-      padding: 35px 20px;
-      text-align: center;
-      background: #F7F9FC;
-      border: 1px solid #E9EEF4;
-      border-radius: 24px;
-    }
-
-    .scanner {
-      position: relative;
-      display: grid;
-      place-items: center;
-      width: 126px;
-      height: 126px;
-      margin: 0 auto 26px;
-      border: 2px solid #DCE7F4;
-      border-radius: 50%;
-      background: white;
-      box-shadow: 0 0 0 10px rgba(30, 87, 148, .04);
-    }
-
-    .scanner::before,
-    .scanner::after {
-      content: "";
-      position: absolute;
-      inset: -10px;
-      border: 2px solid rgba(22, 79, 145, .18);
-      border-radius: 50%;
-      animation: pulse 2s ease-out infinite;
-    }
-
-    .scanner::after {
-      animation-delay: 1s;
-    }
-
-    .scanner-core {
-      display: grid;
-      place-items: center;
-      width: 86px;
-      height: 86px;
-      color: var(--navy);
-      background: #FFF3C8;
-      border-radius: 50%;
-      font-size: 38px;
-    }
-
-    .scanner-line {
-      position: absolute;
-      top: 14px;
-      left: 14px;
-      right: 14px;
-      height: 2px;
-      background: var(--yellow);
-      box-shadow: 0 0 14px rgba(255, 199, 44, .9);
-      animation: scan 1.6s ease-in-out infinite alternate;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(.92); opacity: .8; }
-      100% { transform: scale(1.23); opacity: 0; }
-    }
-
-    @keyframes scan {
-      from { transform: translateY(0); }
-      to { transform: translateY(84px); }
-    }
-
-    .verification-box h3 {
-      margin: 0;
-      font-size: 22px;
-      letter-spacing: -.7px;
-    }
-
-    .verification-box p {
-      max-width: 400px;
-      margin: 12px auto 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.8;
-    }
-
-    .verification-status {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 23px;
-      padding: 10px 15px;
-      color: #204E81;
-      background: #E8F1FC;
-      border-radius: 100px;
-      font-size: 11px;
-      font-weight: 850;
-    }
-
-    .loading-dot {
-      width: 7px;
-      height: 7px;
-      background: #3479BF;
-      border-radius: 50%;
-      animation: blink .8s infinite alternate;
-    }
-
-    @keyframes blink {
-      to { opacity: .25; }
-    }
-
-    .success-panel {
-      padding: 30px;
-      background: #F5FBF7;
-      border: 1px solid #D9F0E2;
-      border-radius: 24px;
-    }
-
-    .success-icon {
-      display: grid;
-      place-items: center;
-      width: 65px;
-      height: 65px;
-      margin-bottom: 23px;
-      color: white;
-      background: var(--green);
-      border-radius: 21px;
-      font-size: 31px;
-      box-shadow: 0 10px 24px rgba(22, 134, 91, .2);
-    }
-
-    .success-panel h2 {
-      font-size: clamp(30px, 3vw, 44px);
-    }
-
-    .success-panel > p {
-      color: #536B60;
-      font-size: 14px;
-      line-height: 1.8;
-    }
-
-    .atm-instruction {
-      display: flex;
-      align-items: flex-start;
-      gap: 15px;
-      margin-top: 25px;
-      padding: 19px;
-      background: white;
-      border: 1px solid #DDEBE2;
-      border-radius: 17px;
-    }
-
-    .atm-icon {
-      display: grid;
-      place-items: center;
-      flex: 0 0 43px;
-      height: 43px;
-      color: var(--navy);
-      background: var(--yellow);
-      border-radius: 13px;
-      font-size: 22px;
-    }
-
-    .atm-instruction strong {
-      display: block;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .atm-instruction p {
-      margin: 6px 0 0;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.7;
-    }
-
-    .demo-notice {
-      margin-top: 18px;
-      padding: 12px 14px;
-      color: #765B17;
-      background: #FFF5D7;
-      border: 1px solid #F5E4A8;
-      border-radius: 12px;
-      font-size: 10px;
-      line-height: 1.7;
-    }
-
-    .footer {
-      padding: 0 25px 30px;
-      text-align: center;
-      color: #8994A3;
-      font-size: 10px;
-      line-height: 1.8;
-    }
-
-    .toast {
-      position: fixed;
-      z-index: 20;
-      right: 24px;
-      bottom: 24px;
-      max-width: min(370px, calc(100vw - 32px));
-      padding: 15px 19px;
-      color: white;
-      background: var(--navy);
-      border: 1px solid rgba(255, 255, 255, .1);
-      border-radius: 14px;
-      box-shadow: 0 15px 40px rgba(7, 30, 61, .22);
-      font-size: 12px;
-      line-height: 1.6;
-      opacity: 0;
-      transform: translateY(12px);
-      pointer-events: none;
-      transition: opacity .25s ease, transform .25s ease;
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    @media (max-width: 1000px) {
-      .hero {
-        padding: 58px 5% 75px;
-      }
-
-      .hero-inner {
-        gap: 35px;
-      }
-
-      .app-shell {
-        grid-template-columns: 205px minmax(0, 1fr);
-      }
-
-      .sidebar {
-        padding: 27px 15px;
-      }
-
-      .main-panel {
-        padding: 34px 28px;
-      }
-
-      .form-layout {
-        grid-template-columns: minmax(0, 1fr);
-      }
-
-      .card-preview-wrap {
-        position: static;
-        max-width: 420px;
-      }
-
-      .debit-card {
-        transform: none;
-      }
-    }
-
-    @media (max-width: 720px) {
-      .topbar {
-        height: 70px;
-        padding: 0 20px;
-      }
-
-      .brand img {
-        width: 44px;
-        height: 44px;
-      }
-
-      .brand-name {
-        font-size: 22px;
-      }
-
-      .topbar-right .secure-label {
-        display: none;
-      }
-
-      .hero {
-        padding: 50px 23px 65px;
-      }
-
-      .hero-inner {
-        grid-template-columns: 1fr;
-        gap: 32px;
-      }
-
-      h1 {
-        font-size: clamp(43px, 10vw, 66px);
-        letter-spacing: -2.8px;
-      }
-
-      .hero-copy {
-        font-size: 15px;
-      }
-
-      .hero-art {
-        max-width: 420px;
-      }
-
-      .banner-card img {
-        min-height: 150px;
-        max-height: 240px;
-      }
-
-      .floating-tag {
-        right: -7px;
-        bottom: 60px;
-      }
-
-      .workspace {
-        margin-top: -24px;
-        padding: 0 12px 40px;
-      }
-
-      .app-shell {
-        grid-template-columns: 1fr;
-        border-radius: 23px;
-      }
-
-      .sidebar {
-        padding: 16px;
-        border-right: 0;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .sidebar-label,
-      .sidebar-note {
-        display: none;
-      }
-
-      .step-list {
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 5px;
-      }
-
-      .step-item {
-        flex: 1;
-        justify-content: center;
-        padding: 6px 2px;
-      }
-
-      .step-copy {
-        display: none;
-      }
-
-      .step-number {
-        width: 34px;
-        height: 34px;
-      }
-
-      .main-panel {
-        padding: 25px 19px 29px;
-      }
-
-      .panel-top {
-        margin-bottom: 25px;
-      }
-
-      .progress-track {
-        width: 90px;
-      }
-
-      .screen h2 {
-        letter-spacing: -1.2px;
-      }
-
-      .welcome-callout {
-        grid-template-columns: 1fr;
-        padding: 20px;
-      }
-
-      .callout-icon {
-        width: 49px;
-        height: 49px;
-      }
-
-      .account-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .account-option p {
-        min-height: auto;
-      }
-
-      .button-row .btn {
-        width: 100%;
-      }
-
-      .success-panel {
-        padding: 22px;
-      }
-    }
-
-    @media (max-width: 380px) {
-      .hero-points {
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      .brand-name {
-        font-size: 20px;
-      }
-
-      .main-panel {
-        padding-right: 14px;
-        padding-left: 14px;
-      }
-
-      .debit-card {
-        padding: 16px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        scroll-behavior: auto !important;
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .01ms !important;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0A2540">
+<title>Banco Nur — Finanzas sin complicaciones</title>
+
+<style>
+:root{
+  --navy:#0A2540;
+  --navy2:#071E3D;
+  --mint:#D4F8D4;
+  --cyan:#E0F7FA;
+  --yellow:#FFC72C;
+  --cream:#FFF5C0;
+  --white:#fff;
+  --paper:#F6F7F4;
+  --ink:#112B40;
+  --muted:#647383;
+  --line:#DFE5E8;
+  --green:#16845B;
+  --radius:28px;
+  --shadow:0 16px 50px rgba(10,37,64,.09);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:Inter,"Segoe UI",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased
+}
+button,input{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible{
+  outline:3px solid #3C8BCB;outline-offset:3px
+}
+img{max-width:100%}
+.topbar{
+  height:82px;padding:0 6%;display:flex;align-items:center;
+  justify-content:space-between;background:#fff;border-bottom:1px solid #e9edef
+}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{width:48px;height:48px;object-fit:contain}
+.brand-name{font-size:25px;font-weight:950;letter-spacing:-1.4px}
+.brand-name span{color:#BA8B00}
+.top-right{font-size:12px;color:var(--muted);font-weight:750}
+.top-right span{color:var(--green);margin-right:7px}
+.hero{
+  background:var(--navy);color:white;padding:74px 6% 95px;overflow:hidden;
+  position:relative
+}
+.hero:after{
+  content:"";position:absolute;width:540px;height:540px;border-radius:50%;
+  border:1px solid #ffffff20;right:-170px;top:-250px;
+  box-shadow:0 0 0 55px #ffffff08,0 0 0 110px #ffffff05;pointer-events:none
+}
+.hero-inner{
+  max-width:1360px;margin:auto;display:grid;
+  grid-template-columns:1.2fr .8fr;gap:55px;align-items:center;position:relative;z-index:1
+}
+.eyebrow{
+  color:var(--yellow);font-size:12px;font-weight:900;
+  letter-spacing:2px;text-transform:uppercase;display:flex;gap:10px;align-items:center
+}
+.eyebrow:before{content:"";width:26px;height:3px;background:var(--yellow)}
+h1{
+  margin:22px 0 20px;font-size:clamp(46px,7vw,92px);
+  line-height:.91;letter-spacing:-5px;font-weight:950
+}
+h1 em{color:var(--yellow);font-style:normal}
+.hero-copy{max-width:560px;color:#d0dce7;line-height:1.8;font-size:16px}
+.hero-art{
+  position:relative;padding:12px;border:1px solid #ffffff2b;
+  border-radius:32px;background:#ffffff0e;transform:rotate(2deg);
+  transition:transform .3s
+}
+.hero-art:hover{transform:rotate(0) translateY(-4px)}
+.hero-art img{
+  display:block;width:100%;height:300px;object-fit:cover;border-radius:23px
+}
+.hero-caption{padding:17px 12px 9px}
+.hero-caption strong{font-size:20px;letter-spacing:-.5px}
+.hero-caption p{margin:7px 0 0;color:#d0dce7;font-size:13px;line-height:1.7}
+.hero-tag{
+  position:absolute;right:-16px;bottom:80px;background:var(--yellow);color:var(--navy);
+  padding:14px 17px;border-radius:13px;font-size:11px;font-weight:950;
+  box-shadow:0 12px 25px #0003
+}
+.hero-bottom{
+  position:absolute;bottom:25px;left:6%;color:#aebdce;
+  font-size:11px;letter-spacing:1.3px;font-weight:800
+}
+.hero-bottom b{color:var(--yellow);margin-right:8px}
+main{max-width:1360px;margin:auto;padding:0 25px}
+.workspace{position:relative;margin-top:-40px;z-index:2}
+.app{
+  display:grid;grid-template-columns:225px minmax(0,1fr);
+  background:white;border-radius:var(--radius);overflow:hidden;
+  box-shadow:var(--shadow);border:1px solid #e8ecee
+}
+.sidebar{padding:29px 20px;background:#fbfcfb;border-right:1px solid var(--line)}
+.sidebar-label{
+  font-size:10px;letter-spacing:1.6px;color:#85929d;font-weight:900;
+  text-transform:uppercase;margin:0 0 19px 8px
+}
+.tab-list{display:flex;flex-direction:column;gap:8px}
+.tab{
+  display:flex;align-items:center;gap:12px;padding:14px 12px;
+  border:0;border-radius:14px;background:transparent;text-align:left;
+  color:#657484;transition:background .2s,transform .2s
+}
+.tab:hover{background:#f0f4f4}
+.tab.active{background:var(--cream);color:var(--navy);font-weight:850}
+.tab-icon{
+  display:grid;place-items:center;flex:0 0 35px;height:35px;
+  border-radius:11px;background:#fff;font-size:18px
+}
+.tab.active .tab-icon{background:var(--yellow)}
+.tab strong{display:block;font-size:12px}
+.tab small{display:block;margin-top:4px;font-size:10px;opacity:.7}
+.side-note{
+  margin-top:35px;padding:16px;background:white;border:1px solid var(--line);
+  border-radius:17px
+}
+.side-note .spark{font-size:22px}
+.side-note strong{display:block;font-size:12px;margin-top:8px}
+.side-note p{font-size:11px;color:var(--muted);line-height:1.7;margin-bottom:0}
+.panel{min-width:0;padding:clamp(24px,4vw,52px)}
+.panel-header{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  margin-bottom:29px
+}
+.panel-label{font-size:10px;font-weight:900;letter-spacing:1.5px;color:#8995a0;text-transform:uppercase}
+.demo-pill{
+  border-radius:100px;background:#edf7f0;color:#23724d;
+  padding:8px 11px;font-size:10px;font-weight:850;white-space:nowrap
+}
+.module{display:none;animation:enter .35s ease both}
+.module.active{display:block}
+@keyframes enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+h2{
+  margin:0;font-size:clamp(32px,4.4vw,57px);line-height:.99;
+  font-weight:950;letter-spacing:-2.8px
+}
+.intro{max-width:700px;margin:15px 0 27px;color:var(--muted);font-size:14px;line-height:1.8}
+.section-kicker{
+  color:#778694;font-size:10px;letter-spacing:1.6px;font-weight:900;
+  text-transform:uppercase;margin-bottom:12px
+}
+.cta{
+  min-height:52px;border:0;border-radius:13px;padding:0 22px;
+  display:inline-flex;justify-content:center;align-items:center;gap:10px;
+  background:var(--yellow);color:var(--navy);font-weight:900;font-size:12px;
+  box-shadow:0 6px 0 #d7a40024;transition:transform .2s,box-shadow .2s,background .2s
+}
+.cta:hover{background:#ffda60;transform:translateY(-3px);box-shadow:0 12px 25px #ffc72c40}
+.cta:active{transform:scale(.98)}
+.cta:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.secondary{
+  min-height:48px;padding:0 19px;border:1px solid var(--line);
+  border-radius:12px;background:#fff;color:var(--navy);font-size:12px;font-weight:850
+}
+.secondary:hover{background:#f2f5f6}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
+.note{color:#8a96a0;font-size:10px;line-height:1.7;margin-top:17px}
+.account-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.account{
+  position:relative;text-align:left;padding:23px;border:2px solid var(--line);
+  background:white;border-radius:22px;transition:transform .22s,border-color .22s,box-shadow .22s
+}
+.account:hover{transform:translateY(-4px);box-shadow:0 12px 30px #0a254012}
+.account.selected{border-color:var(--yellow);background:#fffdf3;box-shadow:0 0 0 4px #ffc72c20}
+.account-symbol{
+  display:grid;place-items:center;width:49px;height:49px;background:var(--cyan);
+  border-radius:15px;font-size:23px;margin-bottom:21px
+}
+.account h3{font-size:17px;letter-spacing:-.5px;margin:0 0 10px}
+.account p{color:var(--muted);font-size:12px;line-height:1.7;margin:0 0 17px}
+.account-meta{font-size:11px;font-weight:850;line-height:1.8}
+.account-meta b{color:#977100}
+.account .radio{
+  position:absolute;right:18px;top:18px;width:20px;height:20px;
+  border:1.5px solid #cbd4db;border-radius:50%
+}
+.account.selected .radio{border:6px solid var(--yellow)}
+.form-card-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.9fr);gap:28px;align-items:start}
+.field{margin-bottom:16px}
+.field label{display:block;margin-bottom:8px;font-size:12px;font-weight:850}
+.field input,.field select{
+  display:block;width:100%;height:50px;padding:0 14px;background:#fbfcfd;
+  border:1.5px solid #dfe5e9;border-radius:12px;color:var(--navy);transition:.2s
+}
+.field input:focus,.field select:focus{background:white;border-color:#3978b7;outline:none;box-shadow:0 0 0 4px #3978b71a}
+.field input.invalid{border-color:#cf4141}
+.hint{font-size:10px;color:#84919c;line-height:1.6;margin:7px 0 0}
+.consent{display:flex;align-items:flex-start;gap:9px;font-size:11px;color:#657484;line-height:1.7}
+.consent input{margin-top:3px;accent-color:var(--navy)}
+.card-wrap{padding:18px;background:#f4f7f8;border:1px solid #e7edef;border-radius:23px}
+.card-wrap-head{display:flex;justify-content:space-between;gap:8px;margin-bottom:17px}
+.card-wrap-head span:first-child{font-size:10px;font-weight:900;letter-spacing:1px;color:#72818e}
+.live{font-size:9px;color:var(--green);font-weight:900}
+.live:before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#21a46b;margin-right:5px}
+.bank-card{
+  position:relative;isolation:isolate;overflow:hidden;aspect-ratio:1.59/1;min-height:185px;
+  border-radius:19px;padding:21px;color:white;display:flex;flex-direction:column;justify-content:space-between;
+  background:radial-gradient(circle at 90% 12%,#ffc72c55,transparent 28%),linear-gradient(130deg,#164f80,#0a2540 65%,#061b31);
+  box-shadow:0 20px 34px #0a254035;transform:perspective(800px) rotateY(-5deg);
+  transition:transform .3s
+}
+.bank-card:hover{transform:perspective(800px) rotateY(0) translateY(-4px)}
+.bank-card:before{
+  content:"";position:absolute;z-index:-1;width:220px;height:220px;right:-105px;bottom:-145px;
+  border:1px solid #ffc72c99;border-radius:50%;box-shadow:0 0 0 25px #ffc72c0b,0 0 0 50px #ffc72c08
+}
+.bank-card:after{
+  content:"";position:absolute;z-index:-1;width:80px;height:170%;top:-25%;left:-120px;
+  background:linear-gradient(90deg,transparent,#ffffff1c,transparent);transform:rotate(24deg);
+  transition:left .6s
+}
+.bank-card:hover:after{left:120%}
+.card-top,.card-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.card-logo{font-size:18px;font-weight:950;letter-spacing:-1px}
+.card-logo span{color:var(--yellow)}
+.card-tag{font-size:8px;color:#cad7e5;letter-spacing:1.3px;font-weight:900}
+.chip{
+  position:relative;width:39px;height:30px;border-radius:7px;
+  background:linear-gradient(135deg,#ffebad,#cba13e,#f6d877);border:1px solid #a47c1c
+}
+.chip:before,.chip:after{content:"";position:absolute;border:1px solid #95701c80}
+.chip:before{inset:0 12px}
+.chip:after{inset:9px 0}
+.card-holder small{display:block;color:#bacddd;font-size:8px;letter-spacing:1.3px;margin-bottom:7px}
+.card-holder strong{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:clamp(12px,1.2vw,16px)}
+.card-bottom{font-size:9px;color:#d1deeb;font-weight:800}
+.card-caption{font-size:10px;line-height:1.7;color:#82909e;margin:14px 0 0}
+.card-type-row{display:flex;gap:8px;margin-bottom:18px}
+.choice-pill{
+  padding:10px 14px;border-radius:100px;border:1px solid var(--line);
+  background:#fff;font-size:11px;font-weight:850;color:var(--navy)
+}
+.choice-pill.active{background:var(--navy);color:white;border-color:var(--navy)}
+.info-tile{border-radius:20px;padding:22px}
+.info-tile h3{font-size:20px;letter-spacing:-.6px;margin:0 0 9px}
+.info-tile p{font-size:12px;line-height:1.8;margin:0}
+.mint{background:var(--mint)}
+.cyan{background:var(--cyan)}
+.cream{background:var(--cream)}
+.navy{background:var(--navy);color:white}
+.mini-label{font-size:9px;font-weight:950;letter-spacing:1.4px;text-transform:uppercase;opacity:.72;margin-bottom:17px}
+.credit-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,.75fr);gap:20px}
+.credit-controls{padding:25px;border:1px solid var(--line);border-radius:22px;background:#fff}
+.slider-group{margin-bottom:26px}
+.slider-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:14px}
+.slider-head label{font-size:12px;font-weight:850}
+.slider-value{font-size:15px;font-weight:950}
+input[type=range]{width:100%;accent-color:var(--navy);cursor:pointer}
+.range-labels{display:flex;justify-content:space-between;color:#87939f;font-size:10px;margin-top:7px}
+.credit-result{padding:25px;border-radius:22px;background:var(--cream)}
+.credit-result .big-number{font-size:clamp(33px,4vw,47px);letter-spacing:-2px;font-weight:950;margin:12px 0}
+.credit-result p{font-size:11px;line-height:1.7;color:#625728}
+.result-row{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid #e6d99a;font-size:11px}
+.result-row strong{text-align:right}
+.terms{margin-top:17px;padding:15px;background:#f7f9fa;border-radius:15px;color:#697786;font-size:10px;line-height:1.8}
+.security-section{padding:75px 0 70px}
+.security-heading{display:grid;grid-template-columns:1fr .7fr;gap:40px;align-items:end;margin-bottom:30px}
+.security-heading h2{font-size:clamp(36px,5.5vw,69px);letter-spacing:-3.5px}
+.security-heading h2 span{color:#b68a00}
+.security-heading p{font-size:13px;line-height:1.9;color:var(--muted);margin:0}
+.security-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
+.security-tile{min-height:265px;padding:25px;border-radius:var(--radius);display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+.security-tile h3{font-size:clamp(22px,2.2vw,30px);line-height:1.05;letter-spacing:-1px;margin:0;font-weight:950}
+.security-tile p{font-size:12px;line-height:1.8;margin:13px 0 0}
+.security-icon{font-size:30px;margin-bottom:25px}
+.security-tile.dark{background:var(--navy);color:white}
+.security-tile.light{background:var(--cyan);color:var(--navy)}
+.security-tile.yellow{background:var(--cream);color:var(--navy)}
+.banner-tile{
+  background:linear-gradient(180deg,#071e3d20,#071e3de8),url("banner.png") center/cover;
+  color:white
+}
+.banner-tile p{color:#e4eaf0}
+.security-footnote{font-size:10px;color:#89949e;line-height:1.8;margin-top:17px}
+.footer{padding:25px 15px 35px;text-align:center;color:#85919c;font-size:10px;line-height:1.8}
+.footer strong{color:var(--navy)}
+.overlay{
+  position:fixed;z-index:30;inset:0;display:none;place-items:center;padding:20px;
+  background:#071e3de8;backdrop-filter:blur(8px)
+}
+.overlay.open{display:grid;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.verify-box{
+  width:min(470px,100%);padding:35px 25px;text-align:center;background:white;
+  border-radius:28px;box-shadow:0 30px 90px #0004
+}
+.radar{
+  position:relative;display:grid;place-items:center;width:130px;height:130px;
+  margin:0 auto 28px;border-radius:50%;border:1px solid #b5d2e9;
+  background:repeating-radial-gradient(circle,#e6f4fa 0 14px,#c5e8f0 15px 16px)
+}
+.radar:before,.radar:after{
+  content:"";position:absolute;inset:-10px;border:2px solid #1b75b7;
+  border-radius:50%;animation:radarPulse 1.8s ease-out infinite
+}
+.radar:after{animation-delay:.9s;border-color:#ffc72c}
+.radar-center{font-size:38px;z-index:1}
+.radar-sweep{
+  position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(from 0deg,transparent 0deg,#1b75b744 65deg,transparent 90deg);
+  animation:rotate 1.4s linear infinite
+}
+@keyframes rotate{to{transform:rotate(360deg)}}
+@keyframes radarPulse{0%{transform:scale(.9);opacity:.8}100%{transform:scale(1.25);opacity:0}}
+.verify-box h2{font-size:29px;letter-spacing:-1px}
+.verify-box p{color:var(--muted);font-size:12px;line-height:1.8}
+.verify-status{display:inline-block;margin-top:13px;padding:9px 13px;border-radius:100px;background:#e7f3fc;color:#225783;font-size:10px;font-weight:900}
+.success-message{display:none;margin-top:23px;padding:23px;background:#e9f8ed;border:1px solid #ccebd5;border-radius:20px}
+.success-message.show{display:block;animation:enter .4s ease}
+.success-message h3{margin:0 0 10px;font-size:23px;letter-spacing:-.8px}
+.success-message p{font-size:12px;line-height:1.8;color:#466653}
+.success-message .cta{margin-top:8px}
+.toast{
+  position:fixed;z-index:40;bottom:22px;right:22px;max-width:calc(100vw - 44px);
+  padding:14px 18px;background:var(--navy);color:white;border-radius:13px;
+  box-shadow:0 12px 30px #0003;font-size:12px;line-height:1.6;
+  opacity:0;transform:translateY(10px);pointer-events:none;transition:.25s
+}
+.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:1000px){
+  .hero-inner{gap:30px}
+  .hero-art img{height:250px}
+  .app{grid-template-columns:190px minmax(0,1fr)}
+  .sidebar{padding:22px 13px}
+  .form-card-layout,.credit-layout{grid-template-columns:1fr}
+  .card-wrap{max-width:430px}
+  .security-tile{padding:20px}
+}
+@media(max-width:720px){
+  .topbar{height:70px;padding:0 20px}
+  .brand img{width:41px;height:41px}
+  .brand-name{font-size:22px}
+  .top-right{font-size:10px}
+  .hero{padding:48px 23px 75px}
+  .hero-inner{grid-template-columns:1fr;gap:30px}
+  h1{font-size:clamp(47px,11vw,72px);letter-spacing:-3px}
+  .hero-art{max-width:460px}
+  .hero-art img{height:220px}
+  .hero-bottom{left:23px;font-size:9px}
+  main{padding:0 12px}
+  .app{grid-template-columns:1fr;border-radius:22px}
+  .sidebar{padding:13px;border-right:0;border-bottom:1px solid var(--line)}
+  .sidebar-label,.side-note{display:none}
+  .tab-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+  .tab{flex-direction:column;justify-content:center;text-align:center;gap:5px;padding:9px 3px}
+  .tab-icon{flex-basis:auto;width:32px;height:32px;font-size:15px}
+  .tab strong{font-size:10px}
+  .tab small{display:none}
+  .panel{padding:25px 18px 30px}
+  .account-grid,.security-grid{grid-template-columns:1fr}
+  .account{padding:20px}
+  .account p{margin-bottom:12px}
+  .security-section{padding:50px 0}
+  .security-heading{grid-template-columns:1fr;gap:15px}
+  .security-heading h2{font-size:clamp(38px,9vw,60px)}
+  .security-tile{min-height:215px}
+  .actions .cta,.actions .secondary{flex:1}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}
+}
+</style>
 </head>
 
 <body>
-  <header class="topbar">
-    <div class="brand">
-      <img src="bancologo.png" alt="Logo Banco Nur">
-      <div class="brand-name">banco <span>nur.</span></div>
-    </div>
+<header class="topbar">
+  <div class="brand">
+    <img src="bancologo.png" alt="Logo de Banco Nur">
+    <div class="brand-name">banco <span>nur.</span></div>
+  </div>
+  <div class="top-right"><span>●</span>Experiencia digital · Bolivia</div>
+</header>
 
-    <div class="topbar-right">
-      <div class="secure-label">
-        <span class="secure-dot"></span>
-        Experiencia digital demostrativa
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="eyebrow">Finanzas más claras, decisiones mejores</div>
+      <h1>NUESTROS<br>SERVICIOS<br><em>NO OCULTAN<br>NADA.</em></h1>
+      <p class="hero-copy">
+        Descubre una nueva experiencia financiera: elige una cuenta,
+        personaliza tu tarjeta y calcula tu préstamo con información
+        clara en cada paso.
+      </p>
+    </div>
+    <div class="hero-art">
+      <img src="banner.png" alt="Banner promocional de Banco Nur">
+      <div class="hero-caption">
+        <strong>Tu dinero merece claridad.</strong>
+        <p>Una experiencia digital diseñada para acompañar tus decisiones.</p>
       </div>
-      <span>Bolivia · Bs</span>
+      <div class="hero-tag">BANCO NUR · DEMO</div>
     </div>
-  </header>
+  </div>
+  <div class="hero-bottom"><b>✳</b> TRANSPARENCIA · EXPERIENCIA · CONFIANZA</div>
+</section>
 
-  <section class="hero">
-    <div class="hero-inner">
-      <div class="hero-content">
-        <div class="eyebrow">Una nueva forma de avanzar</div>
-
-        <h1>
-          EL BANCO QUE<br>
-          SE MUEVE<br>
-          <span class="highlight">CONTIGO.</span>
-        </h1>
-
-        <p class="hero-copy">
-          Tu próxima etapa comienza con una experiencia más simple.
-          Explora nuestras cuentas, personaliza tu tarjeta y descubre
-          una nueva manera de conectar con tu dinero.
-        </p>
-
-        <div class="hero-points">
-          <span><b class="check">✓</b> Experiencia digital</span>
-          <span><b class="check">✓</b> Diseño pensado para ti</span>
-          <span><b class="check">✓</b> En pocos pasos</span>
+<main>
+  <section class="workspace">
+    <div class="app">
+      <aside class="sidebar">
+        <p class="sidebar-label">Explora Banco Nur</p>
+        <nav class="tab-list" aria-label="Módulos de Banco Nur">
+          <button class="tab active" data-tab="accounts" type="button" aria-selected="true">
+            <span class="tab-icon">↗</span>
+            <span><strong>Apertura de cuenta</strong><small>Elige tu cuenta</small></span>
+          </button>
+          <button class="tab" data-tab="cards" type="button" aria-selected="false">
+            <span class="tab-icon">▤</span>
+            <span><strong>Tarjetas</strong><small>Diseña la tuya</small></span>
+          </button>
+          <button class="tab" data-tab="credit" type="button" aria-selected="false">
+            <span class="tab-icon">◷</span>
+            <span><strong>Simulador de créditos</strong><small>Calcula tu cuota</small></span>
+          </button>
+        </nav>
+        <div class="side-note">
+          <div class="spark">✦</div>
+          <strong>Todo a la vista.</strong>
+          <p>Explora los módulos interactivos y conoce las posibilidades de la experiencia Nur.</p>
         </div>
-      </div>
+      </aside>
 
-      <div class="hero-art">
-        <div class="banner-card">
-          <img src="banner.png" alt="Banner promocional de Banco Nur">
-          <div class="banner-caption">
-            <strong>Tu dinero. Tu ritmo. Tu futuro.</strong>
-            <p>Una experiencia financiera creada para acompañar tus próximos pasos.</p>
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-label" id="moduleLabel">Módulo 01 · Apertura de cuenta</span>
+          <span class="demo-pill">● Prototipo de feria</span>
+        </div>
+
+        <!-- MÓDULO 1 -->
+        <section class="module active" id="accounts">
+          <div class="section-kicker">01 / Encuentra tu cuenta</div>
+          <h2>100%<br>TRANSPARENTE.</h2>
+          <p class="intro">
+            Elige la cuenta que quieres explorar. Después podrás introducir
+            datos ficticios y completar una demostración de apertura digital.
+          </p>
+
+          <div class="account-grid">
+            <button class="account selected" data-account="savings" type="button" aria-pressed="true">
+              <span class="radio"></span>
+              <div class="account-symbol">▤</div>
+              <h3>Caja de Ahorros</h3>
+              <p>Una opción ilustrativa para organizar tus ahorros en bolivianos o dólares estadounidenses.</p>
+              <div class="field">
+                <label for="currency">Moneda</label>
+                <select id="currency">
+                  <option value="Bs">Bolivianos (Bs)</option>
+                  <option value="USD">Dólares (USD)</option>
+                </select>
+              </div>
+              <div class="account-meta"><b>2% anual ilustrativo*</b><br>Simulación de rendimiento</div>
+            </button>
+
+            <button class="account" data-account="current" type="button" aria-pressed="false">
+              <span class="radio"></span>
+              <div class="account-symbol" style="background:#FFF5C0">↔</div>
+              <h3>Cuenta Corriente</h3>
+              <p>Una propuesta para explorar la gestión de fondos y las operaciones cotidianas.</p>
+              <div class="account-meta">Flexible · Uso cotidiano<br><b>Condiciones demostrativas</b></div>
+            </button>
           </div>
-        </div>
-        <div class="floating-tag">NUR · NUEVA GENERACIÓN</div>
+
+          <div class="terms">
+            * El 2% es un parámetro ilustrativo solicitado para la demostración, no una tasa confirmada ni una afirmación sobre un mínimo regulado. Las tasas, la cobertura de depósitos y las condiciones reales deben verificarse con la entidad y la normativa vigente.
+          </div>
+
+          <div class="actions">
+            <button class="cta" type="button" id="goToForm">Continuar con mis datos →</button>
+          </div>
+          <p class="note">Para continuar, utiliza exclusivamente información ficticia.</p>
+
+          <div id="accountFormArea" class="hidden" style="margin-top:32px">
+            <div class="section-kicker">02 / Personaliza tu experiencia</div>
+            <h2 style="font-size:clamp(29px,3.4vw,43px)">TU CUENTA.<br>TU NOMBRE.</h2>
+            <p class="intro">Completa los campos de prueba. Tu tarjeta se actualizará mientras escribes.</p>
+
+            <div class="form-card-layout">
+              <form id="openForm">
+                <div class="field">
+                  <label for="fullName">Nombre completo</label>
+                  <input id="fullName" type="text" maxlength="70" autocomplete="name" placeholder="Ej. Andrea Flores" required>
+                  <p class="hint">Nombre y al menos un apellido.</p>
+                </div>
+                <div class="field">
+                  <label for="ci">Carnet de identidad (CI)</label>
+                  <input id="ci" type="text" maxlength="12" autocomplete="off" placeholder="CI ficticio" required>
+                  <p class="hint">Para la feria, no utilices tu CI real.</p>
+                </div>
+                <div class="field">
+                  <label for="pin">PIN de prueba para el cajero</label>
+                  <input id="pin" type="password" inputmode="numeric" maxlength="4" autocomplete="new-password" placeholder="••••" required>
+                  <p class="hint">Exactamente cuatro dígitos. No introduzcas tu PIN bancario real.</p>
+                </div>
+                <label class="consent">
+                  <input id="consent" type="checkbox" required>
+                  <span>Confirmo que uso datos ficticios y entiendo que esta experiencia es una simulación académica.</span>
+                </label>
+                <div class="actions">
+                  <button class="cta" type="submit">Iniciar verificación →</button>
+                </div>
+                <p class="note" id="formError" role="status"></p>
+              </form>
+
+              <div class="card-wrap">
+                <div class="card-wrap-head">
+                  <span>Vista previa de tarjeta</span><span class="live">EN VIVO</span>
+                </div>
+                <div class="bank-card">
+                  <div class="card-top">
+                    <div class="card-logo">banco <span>nur.</span></div>
+                    <div class="card-tag" id="accountTypeTag">AHORROS · DEMO</div>
+                  </div>
+                  <div class="chip"></div>
+                  <div class="card-holder">
+                    <small>TITULAR</small>
+                    <strong id="cardName">TU NOMBRE</strong>
+                  </div>
+                  <div class="card-bottom"><span>DEMO CARD</span><span id="cardCurrency">BS</span></div>
+                </div>
+                <p class="card-caption">Diseño conceptual. No es una tarjeta emitida, habilitada para pagos ni vinculada a una cuenta real.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- MÓDULO 2 -->
+        <section class="module" id="cards">
+          <div class="section-kicker">02 / Una tarjeta a tu estilo</div>
+          <h2>CADA OPERACIÓN<br>PROTEGIDA.</h2>
+          <p class="intro">
+            Explora la vista previa de las tarjetas de Banco Nur y mira cómo
+            se personaliza con el nombre que escribes. La seguridad real
+            depende de controles y servicios que este prototipo no implementa.
+          </p>
+
+          <div class="card-type-row">
+            <button class="choice-pill active" data-card-type="debit" type="button">Tarjeta de débito</button>
+            <button class="choice-pill" data-card-type="credit" type="button">Tarjeta de crédito</button>
+          </div>
+
+          <div class="form-card-layout">
+            <div>
+              <div class="field">
+                <label for="cardNameInput">Nombre del titular</label>
+                <input id="cardNameInput" type="text" maxlength="70" placeholder="Escribe tu nombre">
+              </div>
+              <div class="info-tile mint">
+                <div class="mini-label">Personalización en vivo</div>
+                <h3 id="cardModeTitle">Tu dinero, siempre a tu alcance.</h3>
+                <p id="cardModeDescription">La tarjeta de débito se representa como un medio de acceso a fondos disponibles en una cuenta.</p>
+              </div>
+              <p class="note">Las tarjetas mostradas son diseños conceptuales. No contienen número de tarjeta, banda magnética ni credenciales de pago.</p>
+            </div>
+            <div class="card-wrap">
+              <div class="card-wrap-head"><span>Banco Nur · Tarjeta</span><span class="live">VISTA PREVIA</span></div>
+              <div class="bank-card" id="showcaseCard">
+                <div class="card-top">
+                  <div class="card-logo">banco <span>nur.</span></div>
+                  <div class="card-tag" id="showcaseType">DÉBITO · DEMO</div>
+                </div>
+                <div class="chip"></div>
+                <div class="card-holder">
+                  <small>TITULAR</small>
+                  <strong id="showcaseName">TU NOMBRE</strong>
+                </div>
+                <div class="card-bottom"><span>DEMO CARD</span><span>BS</span></div>
+              </div>
+              <p class="card-caption">Tarjeta conceptual 3D con chip gráfico ilustrativo.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- MÓDULO 3 -->
+        <section class="module" id="credit">
+          <div class="section-kicker">03 / Planifica con claridad</div>
+          <h2>EL COSTO<br>A LA VISTA.</h2>
+          <p class="intro">
+            Ajusta el monto y el plazo para conocer una cuota mensual estimada.
+            El simulador actualiza automáticamente los resultados y muestra
+            el costo total del crédito bajo una tasa ilustrativa.
+          </p>
+
+          <div class="credit-layout">
+            <div class="credit-controls">
+              <div class="slider-group">
+                <div class="slider-head">
+                  <label for="amount">Monto a prestar</label>
+                  <span class="slider-value" id="amountValue">Bs 10.000</span>
+                </div>
+                <input id="amount" type="range" min="1000" max="50000" step="500" value="10000">
+                <div class="range-labels"><span>Bs 1.000</span><span>Bs 50.000</span></div>
+              </div>
+              <div class="slider-group">
+                <div class="slider-head">
+                  <label for="term">Plazo de pago</label>
+                  <span class="slider-value" id="termValue">12 meses</span>
+                </div>
+                <input id="term" type="range" min="6" max="36" step="1" value="12">
+                <div class="range-labels"><span>6 meses</span><span>36 meses</span></div>
+              </div>
+              <div class="terms">
+                <strong>Supuesto del simulador</strong><br>
+                Tasa nominal anual fija ilustrativa: 12%. Sistema de cuota constante con pagos mensuales. No incluye seguros, comisiones, impuestos ni otros cargos.
+              </div>
+            </div>
+
+            <div class="credit-result">
+              <div class="mini-label">Tu cuota mensual estimada</div>
+              <div class="big-number" id="monthlyPayment">Bs 888,49</div>
+              <p>Estimación bajo los supuestos visibles. No es una oferta ni aprobación de crédito.</p>
+              <div class="result-row"><span>Monto solicitado</span><strong id="principalResult">Bs 10.000</strong></div>
+              <div class="result-row"><span>Intereses estimados</span><strong id="interestResult">Bs 661,87</strong></div>
+              <div class="result-row"><span>Total estimado</span><strong id="totalResult">Bs 10.661,87</strong></div>
+              <div class="result-row"><span>Plazo</span><strong id="termResult">12 meses</strong></div>
+            </div>
+          </div>
+          <p class="note">Los importes son estimaciones matemáticas y pueden variar frente a las condiciones de una institución financiera real.</p>
+        </section>
       </div>
     </div>
   </section>
 
-  <main class="workspace">
-    <div class="app-shell">
-      <aside class="sidebar">
-        <p class="sidebar-label">Tu apertura digital</p>
-
-        <nav class="step-list" aria-label="Pasos de apertura">
-          <div class="step-item active" data-step-indicator="1" aria-current="step">
-            <div class="step-number">01</div>
-            <div class="step-copy">
-              <strong>Bienvenida</strong>
-              <small>Empecemos</small>
-            </div>
-          </div>
-
-          <div class="step-item" data-step-indicator="2">
-            <div class="step-number">02</div>
-            <div class="step-copy">
-              <strong>Tu cuenta</strong>
-              <small>Elige tu opción</small>
-            </div>
-          </div>
-
-          <div class="step-item" data-step-indicator="3">
-            <div class="step-number">03</div>
-            <div class="step-copy">
-              <strong>Tus datos</strong>
-              <small>Personalización</small>
-            </div>
-          </div>
-
-          <div class="step-item" data-step-indicator="4">
-            <div class="step-number">04</div>
-            <div class="step-copy">
-              <strong>Seguridad</strong>
-              <small>Verificación demo</small>
-            </div>
-          </div>
-
-          <div class="step-item" data-step-indicator="5">
-            <div class="step-number">05</div>
-            <div class="step-copy">
-              <strong>Finalización</strong>
-              <small>Siguiente paso</small>
-            </div>
-          </div>
-        </nav>
-
-        <div class="sidebar-note">
-          <div class="note-icon">✦</div>
-          <strong>Una experiencia, cinco pasos</strong>
-          <p>Recorre el flujo interactivo de Banco Nur y conoce sus principales funcionalidades.</p>
-        </div>
-      </aside>
-
-      <section class="main-panel" aria-live="polite">
-        <div class="panel-top">
-          <span class="step-caption" id="stepCaption">Paso 01 de 05</span>
-          <div class="progress-track" aria-label="Progreso de apertura">
-            <div class="progress-fill" id="progressFill"></div>
-          </div>
-        </div>
-
-        <!-- PASO 1 -->
-        <section class="screen active" data-screen="1">
-          <h2>Tu futuro financiero empieza aquí.</h2>
-          <p class="screen-intro">
-            Conoce una experiencia de apertura de cuentas diseñada para ser
-            sencilla, clara y visual. Elige una cuenta, personaliza tu tarjeta
-            y recorre nuestra demostración digital.
-          </p>
-
-          <div class="welcome-callout">
-            <div>
-              <strong>Todo comienza con una elección.</strong>
-              <p>Descubre la cuenta que mejor se adapta a tu estilo y continúa con una experiencia guiada.</p>
-            </div>
-            <div class="callout-icon" aria-hidden="true">↗</div>
-          </div>
-
-          <div class="button-row">
-            <button class="btn btn-primary" type="button" data-go="2">
-              Comenzar apertura digital <span aria-hidden="true">→</span>
-            </button>
-          </div>
-
-          <p class="tiny-note">
-            Demostración universitaria. No constituye una solicitud bancaria real.
-          </p>
-        </section>
-
-        <!-- PASO 2 -->
-        <section class="screen" data-screen="2">
-          <h2>Elige tu manera de avanzar.</h2>
-          <p class="screen-intro">
-            Selecciona una de las cuentas de demostración para continuar.
-            Cada opción representa una propuesta diferente de Banco Nur.
-          </p>
-
-          <div class="account-grid">
-            <button class="account-option" type="button" data-account="digital" aria-pressed="false">
-              <span class="radio-mark" aria-hidden="true"></span>
-              <div class="account-icon" aria-hidden="true">▤</div>
-              <h3>Caja de Ahorro Digital (Bs)</h3>
-              <p>Una propuesta práctica para organizar tu dinero y explorar una experiencia bancaria digital.</p>
-              <div class="account-feature"><span>✦</span> Operaciones en bolivianos</div>
-              <div class="account-feature"><span>✦</span> Experiencia digital</div>
-            </button>
-
-            <button class="account-option" type="button" data-account="joven" aria-pressed="false">
-              <span class="radio-mark" aria-hidden="true"></span>
-              <div class="account-icon" aria-hidden="true">✳</div>
-              <h3>Cuenta Joven Nur</h3>
-              <p>Una propuesta moderna para estudiantes y jóvenes que comienzan a gestionar sus finanzas.</p>
-              <div class="account-feature"><span>✦</span> Estilo joven</div>
-              <div class="account-feature"><span>✦</span> Diseño personalizado</div>
-            </button>
-          </div>
-
-          <div class="button-row">
-            <button class="btn btn-secondary" type="button" data-go="1">← Volver</button>
-            <button class="btn btn-primary" id="accountContinue" type="button" data-go="3" disabled>
-              Continuar <span aria-hidden="true">→</span>
-            </button>
-          </div>
-
-          <p class="tiny-note">Las características mostradas son ilustrativas y no representan condiciones contractuales reales.</p>
-        </section>
-
-        <!-- PASO 3 -->
-        <section class="screen" data-screen="3">
-          <h2>Hagámoslo personal.</h2>
-          <p class="screen-intro">
-            Introduce los datos de prueba para personalizar tu tarjeta de débito.
-            Observa cómo el nombre cambia automáticamente en la vista previa.
-          </p>
-
-          <div class="form-layout">
-            <form class="form-fields" id="accountForm" novalidate>
-              <div class="field">
-                <label for="fullName">Nombre completo</label>
-                <input
-                  id="fullName"
-                  name="fullName"
-                  type="text"
-                  placeholder="Ej. Andrea Flores"
-                  autocomplete="name"
-                  maxlength="70"
-                  required
-                >
-                <p class="field-hint">Escribe un nombre y al menos un apellido.</p>
-              </div>
-
-              <div class="field">
-                <label for="ci">Carnet de identidad (CI)</label>
-                <input
-                  id="ci"
-                  name="ci"
-                  type="text"
-                  placeholder="Ej. 12345678"
-                  inputmode="text"
-                  autocomplete="off"
-                  maxlength="12"
-                  required
-                >
-                <p class="field-hint">Para esta demostración, utiliza un CI ficticio.</p>
-              </div>
-
-              <div class="field">
-                <label for="pin">PIN para el cajero</label>
-                <input
-                  id="pin"
-                  name="pin"
-                  type="password"
-                  placeholder="••••"
-                  inputmode="numeric"
-                  autocomplete="new-password"
-                  maxlength="4"
-                  pattern="[0-9]{4}"
-                  required
-                >
-                <p class="field-hint">Exactamente 4 dígitos. No uses tu PIN bancario real.</p>
-              </div>
-
-              <label class="consent" for="consent">
-                <input id="consent" name="consent" type="checkbox" required>
-                <span>Confirmo que estoy usando datos ficticios para la demostración y acepto continuar con el flujo simulado.</span>
-              </label>
-
-              <div class="button-row">
-                <button class="btn btn-secondary" type="button" data-go="2">← Volver</button>
-                <button class="btn btn-primary" type="submit">
-                  Continuar <span aria-hidden="true">→</span>
-                </button>
-              </div>
-              <p class="tiny-note" id="formMessage" role="status"></p>
-            </form>
-
-            <aside class="card-preview-wrap">
-              <div class="preview-label">
-                <span>Tu tarjeta digital</span>
-                <span class="live-badge">Vista en vivo</span>
-              </div>
-
-              <div class="debit-card" id="debitCard" aria-label="Vista previa ilustrativa de tarjeta Banco Nur">
-                <div class="card-top">
-                  <div class="card-brand">banco <span>nur.</span></div>
-                  <div class="card-kind">DEMO CARD</div>
-                </div>
-
-                <div class="chip" aria-label="Chip ilustrativo"></div>
-
-                <div class="card-middle">
-                  <small>TITULAR DE LA TARJETA</small>
-                  <strong class="cardholder" id="cardholder">TU NOMBRE</strong>
-                </div>
-
-                <div class="card-bottom">
-                  <span class="card-currency" id="cardAccountType">CUENTA DIGITAL · BS</span>
-                  <span aria-hidden="true">◉</span>
-                </div>
-              </div>
-
-              <p class="card-disclaimer">
-                Vista previa conceptual. No es una tarjeta emitida ni habilitada para pagos.
-              </p>
-            </aside>
-          </div>
-        </section>
-
-        <!-- PASO 4 -->
-        <section class="screen" data-screen="4">
-          <h2>La seguridad también importa.</h2>
-          <p class="screen-intro">
-            Observa una representación visual del proceso de validación de identidad.
-          </p>
-
-          <div class="verification-box">
-            <div class="scanner" aria-hidden="true">
-              <div class="scanner-core">⌁</div>
-              <div class="scanner-line"></div>
-            </div>
-
-            <h3 id="verificationTitle">Verificando identidad...</h3>
-            <p id="verificationDescription">
-              Simulación visual de un proceso de seguridad como los utilizados en experiencias fintech.
-            </p>
-
-            <div class="verification-status">
-              <span class="loading-dot" id="verificationDot"></span>
-              <span id="verificationStatus">Ejecutando simulación</span>
-            </div>
-          </div>
-
-          <p class="tiny-note">
-            Esta animación no consulta SEGIP, no realiza biometría y no valida la identidad real de ninguna persona.
-          </p>
-        </section>
-
-        <!-- PASO 5 -->
-        <section class="screen" data-screen="5">
-          <div class="success-panel">
-            <div class="success-icon" aria-hidden="true">✓</div>
-
-            <h2>¡Excelente, <span id="successName">futuro cliente</span>!</h2>
-            <p>
-              Has completado el recorrido demostrativo de Banco Nur.
-              Tu selección y la personalización de la tarjeta se han procesado
-              dentro de esta sesión de prueba.
-            </p>
-
-            <div class="atm-instruction">
-              <div class="atm-icon" aria-hidden="true">▣</div>
-              <div>
-                <strong>Continúa en el cajero automático de Banco Nur.</strong>
-                <p>
-                  ¡Cuenta y PIN activados con éxito dentro de esta simulación!
-                  Pasa al cajero automático contiguo de Banco Nur para representar
-                  tu primera transacción en la feria.
-                </p>
-              </div>
-            </div>
-
-            <div class="demo-notice">
-              <strong>Importante:</strong> esta pantalla confirma únicamente la finalización del flujo visual.
-              No se abrió una cuenta bancaria real, no se activó un PIN para un cajero real
-              y no se enviaron datos a un servidor.
-            </div>
-          </div>
-
-          <div class="button-row">
-            <button class="btn btn-primary" id="restartButton" type="button">
-              Iniciar una nueva demostración ↻
-            </button>
-          </div>
-
-          <p class="tiny-note">
-            Para la feria, utiliza únicamente datos ficticios. El PIN de prueba se elimina al terminar la verificación.
-          </p>
-        </section>
-      </section>
+  <!-- SEGURIDAD Y TRANSPARENCIA -->
+  <section class="security-section">
+    <div class="security-heading">
+      <div>
+        <div class="section-kicker">Confianza por diseño</div>
+        <h2>CLARIDAD EN CADA<br><span>DECISIÓN.</span></h2>
+      </div>
+      <p>
+        Una experiencia financiera responsable explica cómo funciona cada
+        paso. Estos bloques presentan conceptos de seguridad y servicio
+        para la demostración; no certifican que Banco Nur esté regulado
+        ni que tenga integraciones operativas.
+      </p>
     </div>
-  </main>
+
+    <div class="security-grid">
+      <article class="security-tile dark">
+        <div>
+          <div class="security-icon">◈</div>
+          <div class="mini-label">01 / Protección</div>
+          <h3>SEGURIDAD<br>Y REGULACIÓN.</h3>
+        </div>
+        <p>ASFI, la regulación financiera y la protección de depósitos son asuntos que deben verificarse según la entidad y las reglas aplicables. Este prototipo no acredita autorización ni cobertura.</p>
+      </article>
+
+      <article class="security-tile light">
+        <div>
+          <div class="security-icon">◎</div>
+          <div class="mini-label">02 / Identidad</div>
+          <h3>BIOMETRÍA<br>INCORPORADA.</h3>
+        </div>
+        <p>La verificación de identidad puede formar parte de procesos digitales reales. Aquí se representa visualmente: no se toma una muestra biométrica ni se consulta SEGIP.</p>
+      </article>
+
+      <article class="security-tile banner-tile">
+        <div>
+          <div class="security-icon">✳</div>
+          <div class="mini-label">03 / Experiencia</div>
+          <h3>EXPERIENCIA<br>DIGITAL HECHA<br>PARA TI.</h3>
+        </div>
+        <p>Un recorrido visual claro, accesible y fácil de explorar.</p>
+      </article>
+    </div>
+    <p class="security-footnote">
+      Banco Nur se presenta aquí como una marca de demostración universitaria. Las referencias a ASFI, SEGIP, intereses y protección de depósitos son informativas y no representan una certificación, una integración real ni condiciones contractuales.
+    </p>
+  </section>
 
   <footer class="footer">
-    <strong>Banco Nur</strong> · Prototipo interactivo universitario · Bolivia<br>
-    Esta experiencia es una demostración académica y no constituye un servicio financiero real.
+    <strong>Banco Nur</strong> · Prototipo interactivo para feria universitaria · Bolivia<br>
+    No abre cuentas reales, no tramita créditos, no emite tarjetas y no realiza transacciones financieras.
   </footer>
+</main>
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<!-- VERIFICACIÓN SIMULADA -->
+<div class="overlay" id="verifyOverlay" role="dialog" aria-modal="true" aria-labelledby="verifyTitle">
+  <div class="verify-box">
+    <div class="radar" aria-hidden="true">
+      <div class="radar-sweep"></div>
+      <div class="radar-center">⌁</div>
+    </div>
+    <div class="section-kicker">Seguridad · Demostración</div>
+    <h2 id="verifyTitle">Verificando identidad...</h2>
+    <p id="verifyText">Representación visual de un proceso de validación. No estamos consultando SEGIP.</p>
+    <div class="verify-status" id="verifyStatus">SIMULACIÓN EN CURSO</div>
 
-  <script>
-    (() => {
-      "use strict";
+    <div class="success-message" id="successMessage">
+      <h3>¡Proceso completado con éxito!</h3>
+      <p>
+        Pasa al Cajero Automático contiguo de Banco Nur e ingresa con tu PIN
+        de 4 dígitos para representar tu primera transacción.
+      </p>
+      <p><strong>Demo:</strong> no se activó un PIN bancario real ni se creó una cuenta financiera. Para una demostración compartida con el cajero se necesita una integración adicional.</p>
+      <button class="cta" type="button" id="finishButton">Volver a la plataforma →</button>
+    </div>
+  </div>
+</div>
 
-      const screens = [...document.querySelectorAll("[data-screen]")];
-      const stepItems = [...document.querySelectorAll("[data-step-indicator]")];
-      const progressFill = document.getElementById("progressFill");
-      const stepCaption = document.getElementById("stepCaption");
-      const accountOptions = [...document.querySelectorAll("[data-account]")];
-      const accountContinue = document.getElementById("accountContinue");
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-      const form = document.getElementById("accountForm");
-      const fullName = document.getElementById("fullName");
-      const ci = document.getElementById("ci");
-      const pin = document.getElementById("pin");
-      const consent = document.getElementById("consent");
-      const formMessage = document.getElementById("formMessage");
+<script>
+(() => {
+  "use strict";
 
-      const cardholder = document.getElementById("cardholder");
-      const cardAccountType = document.getElementById("cardAccountType");
-      const successName = document.getElementById("successName");
+  const $ = (selector) => document.querySelector(selector);
+  const $$ = (selector) => [...document.querySelectorAll(selector)];
 
-      const verificationTitle = document.getElementById("verificationTitle");
-      const verificationDescription = document.getElementById("verificationDescription");
-      const verificationStatus = document.getElementById("verificationStatus");
-      const verificationDot = document.getElementById("verificationDot");
+  let selectedAccount = "savings";
+  let currency = "Bs";
+  let cardType = "debit";
+  let timer = null;
+  let toastTimer = null;
+  let demoName = "";
 
-      const toast = document.getElementById("toast");
+  const tabs = $$(".tab");
+  const modules = $$(".module");
+  const moduleLabel = $("#moduleLabel");
 
-      let currentStep = 1;
-      let selectedAccount = "";
-      let verificationTimer = null;
-      let toastTimer = null;
+  const labels = {
+    accounts: "Módulo 01 · Apertura de cuenta",
+    cards: "Módulo 02 · Tarjetas",
+    credit: "Módulo 03 · Simulador de créditos"
+  };
 
-      // Solo se conserva el estado temporal necesario para la demostración.
-      // El CI y el PIN no se almacenan en localStorage ni se transmiten.
-      let demoName = "";
+  function notify(message) {
+    const toast = $("#toast");
+    toast.textContent = message;
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove("show"), 3000);
+  }
 
-      function showToast(message) {
-        toast.textContent = message;
-        toast.classList.add("show");
+  function showTab(id) {
+    modules.forEach(module => module.classList.toggle("active", module.id === id));
+    tabs.forEach(tab => {
+      const active = tab.dataset.tab === id;
+      tab.classList.toggle("active", active);
+      tab.setAttribute("aria-selected", String(active));
+    });
+    moduleLabel.textContent = labels[id];
+  }
 
-        window.clearTimeout(toastTimer);
-        toastTimer = window.setTimeout(() => {
-          toast.classList.remove("show");
-        }, 3000);
-      }
+  tabs.forEach(tab => tab.addEventListener("click", () => showTab(tab.dataset.tab)));
 
-      function goToStep(step) {
-        if (step < 1 || step > 5) return;
-
-        if (step === 3 && !selectedAccount) {
-          showToast("Primero selecciona una cuenta para continuar.");
-          return;
-        }
-
-        if (step === 4) {
-          startVerification();
-          return;
-        }
-
-        window.clearTimeout(verificationTimer);
-        verificationTimer = null;
-
-        currentStep = step;
-
-        screens.forEach((screen) => {
-          const active = Number(screen.dataset.screen) === step;
-          screen.classList.toggle("active", active);
-          screen.setAttribute("aria-hidden", String(!active));
-        });
-
-        stepItems.forEach((item) => {
-          const number = Number(item.dataset.stepIndicator);
-          const active = number === step;
-          const done = number < step;
-
-          item.classList.toggle("active", active);
-          item.classList.toggle("done", done);
-
-          if (active) {
-            item.setAttribute("aria-current", "step");
-          } else {
-            item.removeAttribute("aria-current");
-          }
-
-          const numberElement = item.querySelector(".step-number");
-          numberElement.textContent = done ? "✓" : String(number).padStart(2, "0");
-        });
-
-        progressFill.style.width = `${step * 20}%`;
-        stepCaption.textContent = `Paso ${String(step).padStart(2, "0")} de 05`;
-
-        if (step === 3) {
-          updateCard();
-        }
-
-        document.querySelector(".main-panel").scrollIntoView({
-          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-            ? "auto"
-            : "smooth",
-          block: "start"
-        });
-      }
-
-      function startVerification() {
-        window.clearTimeout(verificationTimer);
-        currentStep = 4;
-
-        screens.forEach((screen) => {
-          const active = Number(screen.dataset.screen) === 4;
-          screen.classList.toggle("active", active);
-          screen.setAttribute("aria-hidden", String(!active));
-        });
-
-        stepItems.forEach((item) => {
-          const number = Number(item.dataset.stepIndicator);
-          const active = number === 4;
-          const done = number < 4;
-
-          item.classList.toggle("active", active);
-          item.classList.toggle("done", done);
-
-          if (active) item.setAttribute("aria-current", "step");
-          else item.removeAttribute("aria-current");
-
-          item.querySelector(".step-number").textContent =
-            done ? "✓" : String(number).padStart(2, "0");
-        });
-
-        progressFill.style.width = "80%";
-        stepCaption.textContent = "Paso 04 de 05";
-
-        verificationTitle.textContent = "Verificando identidad...";
-        verificationDescription.textContent =
-          "Simulación visual de un proceso de seguridad. No se está consultando ninguna base de datos.";
-        verificationStatus.textContent = "Ejecutando simulación";
-        verificationDot.style.background = "#3479BF";
-
-        document.querySelector(".main-panel").scrollIntoView({
-          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
-            ? "auto"
-            : "smooth",
-          block: "start"
-        });
-
-        verificationTimer = window.setTimeout(() => {
-          // El PIN se descarta. No se utiliza para autorizar ninguna operación real.
-          pin.value = "";
-
-          verificationTitle.textContent = "Simulación completada";
-          verificationDescription.textContent =
-            "La animación ha finalizado. No se realizó una verificación biométrica real.";
-          verificationStatus.textContent = "Demostración finalizada";
-          verificationDot.style.background = "#16865B";
-
-          verificationTimer = window.setTimeout(() => {
-            successName.textContent = demoName.split(/\s+/)[0] || "futuro cliente";
-            goToStep(5);
-          }, 650);
-        }, 2000);
-      }
-
-      function updateCard() {
-        const name = fullName.value.trim().replace(/\s+/g, " ");
-        cardholder.textContent = name ? name.toLocaleUpperCase("es") : "TU NOMBRE";
-        cardholder.title = name || "Tu nombre aparecerá aquí";
-
-        cardAccountType.textContent = selectedAccount === "joven"
-          ? "CUENTA JOVEN · BS"
-          : "CUENTA DIGITAL · BS";
-      }
-
-      accountOptions.forEach((option) => {
-        option.addEventListener("click", () => {
-          selectedAccount = option.dataset.account;
-
-          accountOptions.forEach((item) => {
-            const selected = item === option;
-            item.classList.toggle("selected", selected);
-            item.setAttribute("aria-pressed", String(selected));
-          });
-
-          accountContinue.disabled = false;
-          updateCard();
-        });
+  // Selección de cuenta.
+  $$("[data-account]").forEach(button => {
+    button.addEventListener("click", () => {
+      selectedAccount = button.dataset.account;
+      $$("[data-account]").forEach(item => {
+        const active = item === button;
+        item.classList.toggle("selected", active);
+        item.setAttribute("aria-pressed", String(active));
       });
+      updateAccountPreview();
+    });
+  });
 
-      document.querySelectorAll("[data-go]").forEach((button) => {
-        button.addEventListener("click", () => {
-          const target = Number(button.dataset.go);
-          goToStep(target);
-        });
-      });
+  $("#currency").addEventListener("change", event => {
+    currency = event.target.value;
+    updateAccountPreview();
+  });
 
-      fullName.addEventListener("input", updateCard);
+  function updateAccountPreview() {
+    $("#cardCurrency").textContent = currency.toUpperCase();
+    $("#accountTypeTag").textContent =
+      selectedAccount === "current" ? "CORRIENTE · DEMO" : "AHORROS · DEMO";
+  }
 
-      // Permite números y una letra opcional para el CI de prueba.
-      ci.addEventListener("input", () => {
-        ci.value = ci.value.replace(/[^0-9a-zA-Z]/g, "").slice(0, 12);
-      });
+  $("#goToForm").addEventListener("click", () => {
+    $("#accountFormArea").classList.remove("hidden");
+    $("#accountFormArea").scrollIntoView({
+      behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      block: "start"
+    });
+    $("#fullName").focus({ preventScroll: true });
+  });
 
-      // Limita el PIN a cuatro dígitos numéricos.
-      pin.addEventListener("input", () => {
-        pin.value = pin.value.replace(/\D/g, "").slice(0, 4);
-      });
+  // Vista previa en tiempo real.
+  function updateNames() {
+    const formName = $("#fullName").value.trim().replace(/\s+/g, " ");
+    const showcaseName = $("#cardNameInput").value.trim().replace(/\s+/g, " ");
+    $("#cardName").textContent = formName ? formName.toLocaleUpperCase("es") : "TU NOMBRE";
+    $("#showcaseName").textContent = showcaseName ? showcaseName.toLocaleUpperCase("es") : "TU NOMBRE";
+  }
 
-      function markInvalid(field, invalid) {
-        field.classList.toggle("invalid", invalid);
-        field.setAttribute("aria-invalid", String(invalid));
-      }
+  $("#fullName").addEventListener("input", updateNames);
+  $("#cardNameInput").addEventListener("input", updateNames);
 
-      form.addEventListener("submit", (event) => {
-        event.preventDefault();
+  $("#ci").addEventListener("input", event => {
+    event.target.value = event.target.value.replace(/[^0-9a-zA-Z]/g, "").slice(0, 12);
+  });
 
-        const name = fullName.value.trim().replace(/\s+/g, " ");
-        const nameParts = name.split(" ").filter(Boolean);
-        const validName = nameParts.length >= 2 && name.length <= 70;
-        const validCI = /^[0-9]{5,10}[a-zA-Z]?$/.test(ci.value.trim());
-        const validPIN = /^[0-9]{4}$/.test(pin.value);
-        const validConsent = consent.checked;
+  $("#pin").addEventListener("input", event => {
+    event.target.value = event.target.value.replace(/\D/g, "").slice(0, 4);
+  });
 
-        markInvalid(fullName, !validName);
-        markInvalid(ci, !validCI);
-        markInvalid(pin, !validPIN);
+  // Selector de tipo de tarjeta.
+  $$("[data-card-type]").forEach(button => {
+    button.addEventListener("click", () => {
+      cardType = button.dataset.cardType;
+      $$("[data-card-type]").forEach(item => item.classList.toggle("active", item === button));
 
-        if (!validName || !validCI || !validPIN || !validConsent) {
-          const messages = [];
+      $("#showcaseType").textContent = cardType === "debit" ? "DÉBITO · DEMO" : "CRÉDITO · DEMO";
+      $("#cardModeTitle").textContent = cardType === "debit"
+        ? "Tu dinero, siempre a tu alcance."
+        : "Planifica tus compras con claridad.";
+      $("#cardModeDescription").textContent = cardType === "debit"
+        ? "La tarjeta de débito se representa como un medio de acceso a fondos disponibles en una cuenta."
+        : "La tarjeta de crédito se representa como una línea de financiación sujeta a condiciones, evaluación y límites.";
+    });
+  });
 
-          if (!validName) messages.push("nombre y apellido");
-          if (!validCI) messages.push("CI ficticio válido");
-          if (!validPIN) messages.push("PIN de 4 dígitos");
-          if (!validConsent) messages.push("aceptación de la demostración");
+  // Simulador de cuotas: fórmula de amortización con pagos mensuales constantes.
+  const amount = $("#amount");
+  const term = $("#term");
+  const money = value => "Bs " + value.toLocaleString("es-BO", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+  const money0 = value => "Bs " + value.toLocaleString("es-BO", {
+    maximumFractionDigits: 0
+  });
 
-          formMessage.textContent = "Revisa: " + messages.join(", ") + ".";
-          showToast("Hay campos pendientes. Revisa el formulario.");
-          return;
-        }
+  function calculateCredit() {
+    const principal = Number(amount.value);
+    const months = Number(term.value);
+    const annualRate = 0.12; // Tasa hipotética, no oferta bancaria.
+    const monthlyRate = annualRate / 12;
 
-        if (!selectedAccount) {
-          showToast("Selecciona una cuenta antes de continuar.");
-          goToStep(2);
-          return;
-        }
+    const payment = monthlyRate === 0
+      ? principal / months
+      : principal * monthlyRate / (1 - Math.pow(1 + monthlyRate, -months));
 
-        demoName = name;
-        updateCard();
-        formMessage.textContent = "";
+    const total = payment * months;
+    const interest = total - principal;
 
-        // El CI no se necesita para los siguientes pasos: se limpia.
-        // El PIN se mantiene solo hasta la verificación y luego se descarta.
-        ci.value = "";
-        markInvalid(ci, false);
+    $("#amountValue").textContent = money0(principal);
+    $("#termValue").textContent = `${months} ${months === 1 ? "mes" : "meses"}`;
+    $("#monthlyPayment").textContent = money(payment);
+    $("#principalResult").textContent = money0(principal);
+    $("#interestResult").textContent = money(interest);
+    $("#totalResult").textContent = money(total);
+    $("#termResult").textContent = `${months} meses`;
+  }
 
-        startVerification();
-      });
+  amount.addEventListener("input", calculateCredit);
+  term.addEventListener("input", calculateCredit);
 
-      [fullName, ci, pin].forEach((field) => {
-        field.addEventListener("input", () => {
-          markInvalid(field, false);
-          formMessage.textContent = "";
-        });
-      });
+  // Verificación visual de 2 segundos; no realiza consultas externas.
+  function startVerification(name) {
+    demoName = name;
+    const overlay = $("#verifyOverlay");
+    const success = $("#successMessage");
 
-      document.getElementById("restartButton").addEventListener("click", () => {
-        window.clearTimeout(verificationTimer);
-        verificationTimer = null;
+    success.classList.remove("show");
+    $("#verifyTitle").textContent = "Verificando identidad...";
+    $("#verifyText").textContent = "Simulación visual de seguridad. No se está consultando SEGIP.";
+    $("#verifyStatus").textContent = "SIMULACIÓN EN CURSO";
+    overlay.classList.add("open");
 
-        form.reset();
-        selectedAccount = "";
-        demoName = "";
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      // Se descartan los datos sensibles temporales.
+      $("#pin").value = "";
+      $("#ci").value = "";
 
-        accountOptions.forEach((option) => {
-          option.classList.remove("selected");
-          option.setAttribute("aria-pressed", "false");
-        });
+      $("#verifyTitle").textContent = "¡Proceso completado!";
+      $("#verifyText").textContent = `La demostración para ${demoName} ha finalizado.`;
+      $("#verifyStatus").textContent = "SIMULACIÓN FINALIZADA";
+      success.classList.add("show");
+      $("#finishButton").focus({ preventScroll: true });
+    }, 2000);
+  }
 
-        accountContinue.disabled = true;
+  $("#openForm").addEventListener("submit", event => {
+    event.preventDefault();
 
-        [fullName, ci, pin].forEach((field) => markInvalid(field, false));
+    const name = $("#fullName").value.trim().replace(/\s+/g, " ");
+    const nameParts = name.split(" ").filter(Boolean);
+    const ciValue = $("#ci").value.trim();
+    const pinValue = $("#pin").value;
+    const accepted = $("#consent").checked;
 
-        cardholder.textContent = "TU NOMBRE";
-        cardAccountType.textContent = "CUENTA DIGITAL · BS";
-        formMessage.textContent = "";
+    const validName = nameParts.length >= 2 && name.length <= 70;
+    const validCI = /^[0-9]{5,10}[a-zA-Z]?$/.test(ciValue);
+    const validPIN = /^[0-9]{4}$/.test(pinValue);
 
-        goToStep(1);
-        showToast("Listo para recibir al siguiente participante.");
-      });
+    $("#fullName").classList.toggle("invalid", !validName);
+    $("#ci").classList.toggle("invalid", !validCI);
+    $("#pin").classList.toggle("invalid", !validPIN);
 
-      // Estado accesible inicial.
-      screens.forEach((screen) => {
-        screen.setAttribute(
-          "aria-hidden",
-          String(Number(screen.dataset.screen) !== 1)
-        );
-      });
+    if (!validName || !validCI || !validPIN || !accepted) {
+      const missing = [];
+      if (!validName) missing.push("nombre y apellido");
+      if (!validCI) missing.push("CI ficticio válido");
+      if (!validPIN) missing.push("PIN de cuatro dígitos");
+      if (!accepted) missing.push("aceptación de la demostración");
+      $("#formError").textContent = "Revisa: " + missing.join(", ") + ".";
+      notify("Revisa los campos antes de continuar.");
+      return;
+    }
 
-      updateCard();
-    })();
-  </script>
+    $("#formError").textContent = "";
+    startVerification(name);
+
+    // La identidad, el CI y el PIN no se guardan ni se envían a un servidor.
+    // El CI se elimina al iniciar; el PIN se descarta al terminar la animación.
+    $("#ci").value = "";
+  });
+
+  $("#finishButton").addEventListener("click", () => {
+    clearTimeout(timer);
+    $("#verifyOverlay").classList.remove("open");
+    showTab("accounts");
+    $("#accountFormArea").classList.remove("hidden");
+    notify("Demostración finalizada. El cajero no está conectado a esta sesión.");
+  });
+
+  // Cálculos iniciales y vista previa.
+  updateNames();
+  updateAccountPreview();
+  calculateCredit();
+})();
+</script>
 </body>
 </html>
