@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -137,8 +136,9 @@ main{max-width:1360px;margin:auto;padding:0 25px}
   border-radius:100px;background:#edf7f0;color:#23724d;
   padding:8px 11px;font-size:10px;font-weight:850;white-space:nowrap
 }
-.module{display:none;animation:enter .35s ease both}
-.module.active{display:block}
+.module{display:none !important;animation:enter .35s ease both}
+.module.active{display:block !important}
+.hidden{display:none !important}
 @keyframes enter{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 h2{
   margin:0;font-size:clamp(32px,4.4vw,57px);line-height:.99;
@@ -391,6 +391,9 @@ input[type=range]{width:100%;accent-color:var(--navy);cursor:pointer}
         personaliza tu tarjeta y calcula tu préstamo con información
         clara en cada paso.
       </p>
+      <div class="actions" style="margin-top:22px">
+        <button class="cta" type="button" id="heroCreditButton">Simular un crédito →</button>
+      </div>
     </div>
     <div class="hero-art">
       <img src="banner.png" alt="Banner promocional de Banco Nur">
@@ -743,16 +746,41 @@ input[type=range]{width:100%;accent-color:var(--navy);cursor:pointer}
   }
 
   function showTab(id) {
-    modules.forEach(module => module.classList.toggle("active", module.id === id));
+    const target = document.getElementById(id);
+    if (!target || !labels[id]) return;
+
+    modules.forEach(module => {
+      module.classList.toggle("active", module.id === id);
+      module.setAttribute("aria-hidden", String(module.id !== id));
+    });
+
     tabs.forEach(tab => {
       const active = tab.dataset.tab === id;
       tab.classList.toggle("active", active);
       tab.setAttribute("aria-selected", String(active));
     });
-    moduleLabel.textContent = labels[id];
+
+    if (moduleLabel) moduleLabel.textContent = labels[id];
+    if (id === "credit") calculateCredit();
   }
 
-  tabs.forEach(tab => tab.addEventListener("click", () => showTab(tab.dataset.tab)));
+  tabs.forEach(tab => {
+    tab.addEventListener("click", event => {
+      event.preventDefault();
+      showTab(tab.dataset.tab);
+    });
+  });
+
+  const heroCreditButton = $("#heroCreditButton");
+  if (heroCreditButton) {
+    heroCreditButton.addEventListener("click", () => {
+      showTab("credit");
+      $(".workspace").scrollIntoView({
+        behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+        block: "start"
+      });
+    });
+  }
 
   // Selección de cuenta.
   $$("[data-account]").forEach(button => {
